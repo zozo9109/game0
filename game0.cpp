@@ -4,13 +4,57 @@
 #include <stdlib.h>
 
 SceneID scene1;
-TimerID timer1;
+TimerID timer1, timer2;
 
-ObjectID A, B, C, D, E, F, G, H, I, J, K, L, M, N, O;
+ObjectID A, B, C, D, E, F, G, H, I, J, K, L;
+
+bool look = 1;
+int num;
+int check;
 
 
-void character() {
+int Random() {
+    srand(time(NULL));
+    num = rand() % 5; // 수정해주기
+    return num + 1;
+}
 
+int Random2() {
+    srand(time(NULL));
+    check = rand() % 2; // 수정해주기
+    return check ;
+}
+
+void Mytimer1(int chekc) {
+ 
+    if (check == 0) { // 이미지가 바뀜
+        hideObject(F);
+        showObject(G); // 뒤
+        setTimer(timer1, Random());
+        startTimer(timer1);
+    }
+
+    if (check == 1) {
+        hideObject(G);
+        showObject(F);
+        setTimer(timer1, Random());
+        startTimer(timer1);
+        
+    }
+}
+
+
+void timerCallback(TimerID timer) {
+    if (timer == timer1) {
+        Mytimer1(Random2());
+
+    }
+
+}
+
+
+
+void game_init() {
 
     scene1 = createScene("교실", "classroom.jpg");
 
@@ -46,6 +90,11 @@ void character() {
     scaleObject(F, 0.5f);
     hideObject(F);
 
+    G = createObject("teacher3.png");
+    locateObject(G, scene1, 900, 130);
+    scaleObject(G, 0.5f);
+    hideObject(G);
+
 
     
     H = createObject("play.png");
@@ -72,28 +121,9 @@ void character() {
     hideObject(L);
 
 
-    M = createObject("speechbubble1.png");
-    locateObject(M, scene1, 800, 150);
-    scaleObject(M, 0.8f);
-    hideObject(M);
-
-
-    N = createObject("speechbubble2.png");
-    locateObject(N, scene1, 800, 150);
-    scaleObject(N, 0.8f);
-    hideObject(N);
-
-
-    O = createObject("speechbubble3.png");
-    locateObject(O, scene1, 800, 150);
-    scaleObject(O, 0.8f);
-    hideObject(O);
 
 
 }
-
-
-
 
 
 void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
@@ -110,7 +140,9 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
     //플레이 버튼을 누르면 교수가 교수1에세 교수 2 교수 3을 반복적으로 한다. 여기서 학생을 클릭시 학생이 자다 안자다가 한다. 타이머 작동된다 또 sleep버튼이랑 getup 버튼이 생김
     // 조건에 따라 hide했다 slow 했다 하기로 a가 하이드면 b가 쇼 하는 거로
     else if (object == H) {
-        startTimer(timer1);
+        Mytimer1(Random2());
+   
+    
         hideObject(H);
         showObject(K);
         showObject(L);
@@ -128,10 +160,13 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 
 
     //sleep Button을 클릭시 student2 잠자고 get up을 클릭시 일어나기
-    else if (object == K) {
+    else if (object == K) { //sleepbutton
         hideObject(C);
         showObject(E);
         showObject(N);
+
+  
+
         //여기서 teacher3이랑 겹쳐질시 하트 깎임
 
     }
@@ -141,6 +176,11 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
         hideObject(E);
         showObject(C);
         showObject(M);
+        
+        if (check ==0) {
+            showMessage("게임오버");
+        }
+
 
     }
     //그냥 사람 클릭해도 자다가 안자다가 변함
@@ -161,14 +201,12 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 
 
 
-
 int main() {
-
+    setTimerCallback(timerCallback);
     setMouseCallback(mouseCallback);
-    scene1 = createScene("교실", "classroom.jpg");
-    character();
+    game_init();
+    timer1 = createTimer(0.0f);
+    showTimer(timer1);
     startGame(scene1);
-
-
 
 }
