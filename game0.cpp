@@ -94,6 +94,8 @@ void character() {
 
 
 
+
+
 void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
     //endButton버튼 누르면 게임종류
     if (object == I) {
@@ -114,12 +116,14 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
         showObject(L);
         //teacher1이 teacher2로 바뀜
         hideObject(A);
-        showObject(F);
+        showObject(F);  
 
 
 
 
-       
+
+
+
     }
 
 
