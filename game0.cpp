@@ -120,6 +120,7 @@ void game_init() {
     scaleObject(L, 0.5f);
     hideObject(L);
 
+    
 
 
 
@@ -163,7 +164,7 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
     else if (object == K) { //sleepbutton
         hideObject(C);
         showObject(E);
-        showObject(N);
+        
 
   
 
@@ -175,7 +176,7 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
     else if (object == L) {
         hideObject(E);
         showObject(C);
-        showObject(M);
+       
         
         if (check ==0) {
             showMessage("게임오버");
@@ -187,12 +188,12 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
     else if (object == C) {
         hideObject(C);
         showObject(E);
-        showObject(N);
+       
     }
     else if (object == E) {
         hideObject(E);
         showObject(C);
-        showObject(M);
+    
     }
     
 
